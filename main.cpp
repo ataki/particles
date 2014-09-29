@@ -356,40 +356,65 @@ void motion(int x, int y) {
     mouseY = y;
 }
 
+
+
 void drawCube() {
-    
-    /** TODO for Justin 
-     
+    /** TODO for Justi
      Currently, this function attempts to draw a large cube and display it on the screen
      using just triangle strips. However, it doesn't do a good job. Try running it and see.
      
      The todo is to adjust the points on the vertex such that the cube looks more like a cube.
-     
      **/
     
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    
     glBegin(GL_TRIANGLE_STRIP);
-    
-    glVertex3f(0.1f,0.1f,-0.1f);
-    glVertex3f(0.1f,0.3f,-0.1f);
-    glVertex3f(0.1f,0.3f,-0.1f);
-    
-    glVertex3f(0.3f,0.3f,-0.3f);
-    glVertex3f(0.3f,0.1f,-0.3f);
-    
-    glVertex3f(0.1f,0.1,-0.1);
-    glVertex3f(0.1f,0.1,-0.3);
-    
-    glVertex3f(0.1,0.3,-0.3);
-    glVertex3f(0.1,0.3,-0.1);
-    
-    glVertex3f(0.1,0.3,-0.1);
-    glVertex3f(0.1,0.3,-0.3);
-    
-    glVertex3f(0.1,0.1,-0.3);
-    glVertex3f(0.3,0.1,-0.3);
-    
+    glColor3f(1.f,0.f,0.f);
+    glVertex3f(0,0,0);
+    glVertex3f(0,.1,0);
+    glVertex3f(.1,0,0);
+    glVertex3f(.1,.1,0);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(1.f,0.f,1.f);
+    glVertex3f(.1,0,-.1);
+    glVertex3f(.1,.1,-.1);
+    glVertex3f(0,0,-.1);
+    glVertex3f(0,.1,-.1);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(0.f,0.f,1.f);
+    glVertex3f(.1,0,0);
+    glVertex3f(.1,.1,0);
+    glVertex3f(.1,0,-.1);
+    glVertex3f(.1,.1,-.1);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(0.f,1.f,0.f);
+    glVertex3f(0,.1,-.1);
+    glVertex3f(.1,.1,-.1);
+    glVertex3f(.1, .1, 0);
+    glVertex3f(0,.1,0);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(1.f,1.f,1.f);
+    glVertex3f(0,0,-.1);
+    glVertex3f(.1,0,-.1);
+    glVertex3f(.1,0,0);
+    glVertex3f(0,0,0);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+    glColor3f(1.f,1.f,0.f);
+    glVertex3f(0,.1,0);
+    glVertex3f(0,0,0);
+    glVertex3f(0,.1,-.1);
+    glVertex3f(0,0,-.1);
     glEnd();
 }
 
