@@ -359,7 +359,7 @@ void motion(int x, int y) {
 
 
 void drawCube() {
-    /** TODO for Justi
+    /** TODO for Justin
      Currently, this function attempts to draw a large cube and display it on the screen
      using just triangle strips. However, it doesn't do a good job. Try running it and see.
      
@@ -369,6 +369,7 @@ void drawCube() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
+    // red panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,0.f,0.f);
     glVertex3f(0,0,0);
@@ -377,44 +378,49 @@ void drawCube() {
     glVertex3f(.1,.1,0);
     glEnd();
 
+    // pink panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,0.f,1.f);
-    glVertex3f(.1,0,-.1);
-    glVertex3f(.1,.1,-.1);
-    glVertex3f(0,0,-.1);
-    glVertex3f(0,.1,-.1);
+    glVertex3f(.15,.05,-.1);
+    glVertex3f(.15,.15,-.1);
+    glVertex3f(.05,.05,-.1);
+    glVertex3f(.05,.15,-.1);
     glEnd();
 
+    // blue panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(0.f,0.f,1.f);
     glVertex3f(.1,0,0);
     glVertex3f(.1,.1,0);
-    glVertex3f(.1,0,-.1);
-    glVertex3f(.1,.1,-.1);
+    glVertex3f(.15,.05,-.1);
+    glVertex3f(.15,.15,-.1);
     glEnd();
 
+    // green panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(0.f,1.f,0.f);
-    glVertex3f(0,.1,-.1);
-    glVertex3f(.1,.1,-.1);
+    glVertex3f(.15,.15,-.1);
+    glVertex3f(.05,.15,-.1);
     glVertex3f(.1, .1, 0);
     glVertex3f(0,.1,0);
     glEnd();
-
+    
+    // white panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,1.f,1.f);
-    glVertex3f(0,0,-.1);
-    glVertex3f(.1,0,-.1);
+    glVertex3f(.15,.05,-.1);
+    glVertex3f(.05,.05,-.1);
     glVertex3f(.1,0,0);
     glVertex3f(0,0,0);
     glEnd();
 
+    // yellow panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,1.f,0.f);
     glVertex3f(0,.1,0);
     glVertex3f(0,0,0);
-    glVertex3f(0,.1,-.1);
-    glVertex3f(0,0,-.1);
+    glVertex3f(.05,.15,-.1);
+    glVertex3f(.05,.05,-.1);
     glEnd();
 }
 
