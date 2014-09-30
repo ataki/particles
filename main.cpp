@@ -13,7 +13,7 @@
 #include "math.h"
 
 #define NUM_PARTICLES 1000
-#define SLOW_DOWN_START 1000
+#define SLOW_DOWN_START 10000
 
 #define WAVE 1
 #define RANDOM 2
@@ -61,19 +61,36 @@ float dot_diam      = 4.f;
 
 int cutoffDistance  = 0.2;
 
-float edge_prob       = 0.001;
+float edge_prob     = 0.001;
 
-GLfloat RED[3]      = {196.f/256.f, 30.f/256.f, 58.f/256.f};
+float gold_opacity  = 0;
+
+GLfloat RED[3]      = {255.f/256.f, 215.f/256.f, 0.f/256.f};
 GLfloat BLACK[3]    = {51.f/256.f, 51.f/256.f, 51.f/256.f};
-GLfloat GREEN[3]    = {64.f/256.f, 130.f/256.f, 109.f/256.f};
-GLfloat YELLOW[3]   = {255.f/256.f, 215.f/256.f, 0.f/256.f};
+GLfloat GREEN[3]    = {0.694, 0.757, 0.459};
 GLfloat GRAY[3]     = {100.f/256.f, 100.f/256.f, 100.f/256.f};
+
+GLfloat GOLD[3][3]  = {
+    {255.f/256.f, 215.f/256.f, 0.f/256.f},
+    {0.99, 0.67, 0.18},
+    {0.98, 0.60, 0.18}
+};
+
+GLfloat background[3][3] = {
+    {0.165, 0.216, 0.216},
+    {0.184, 0.18, 0.20},
+    {0.19, 0.18, 0.20}
+};
 
 // -------------------------------------
 // Utilities
 
 float sq(float x) {
     return x * x;
+}
+
+float getGoldOpacity() {
+    return gold_opacity++;
 }
 
 float offset(float x) {
@@ -179,14 +196,15 @@ void drawLines(void) {
                 glBegin(GL_LINES);
                 if (src.friendly && dst.friendly)
                     glColor3fv(GREEN);
+
                 // if not friends, chances are they quarrel
                 else if ((src.friendly && !dst.friendly) ||
                          (!src.friendly && dst.friendly)) {
-                    int r = genRand();
-                    if (r > 0.5) {
-                        glColor3fv(GREEN);
+                    float r = genRand();
+                    if (r > 0.01) {
+                        glColor3fv(GRAY);
                     } else {
-                        glColor3fv(RED);
+                        glColor4f(GOLD[0][0], GOLD[0][1], GOLD[0][2], (GLfloat)getGoldOpacity());
                     }
                 }
                 
@@ -210,7 +228,7 @@ void initializeParticles() {
     
     int i;
     for (i = 0; i < NUM_PARTICLES; i++) {
-        if (genRand() > 0.5) {
+        if (genRand() < 0.3) {
             Field[i].friendly = true;
         } else {
             Field[i].friendly = false;
@@ -246,7 +264,7 @@ void updateRandomMode() {
     }
 }
 
-void walk(Particle p) {
+void step(Particle p) {
     if (p.dest[0] - p.pos[0]) p.pos[0] += step_size;
     else p.pos[0] -= step_size;
     
@@ -261,9 +279,10 @@ void updatePositions() {
     if (mode == RANDOM) {
         updateRandomMode();
     } else {
+        printf(".");
         int i;
         for (i = 0; i < NUM_PARTICLES; i++) {
-            walk(Field[i]);
+            step(Field[i]);
         }
     }
 }
@@ -274,7 +293,6 @@ void drawAll() {
 }
 
 void translateLeft() {
-    printf(".");
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glTranslatef(-translate_step, 0, 0);
@@ -312,10 +330,8 @@ void translateOut() {
 void mouse(int button, int state, int x, int y) {
     if (state == GLUT_UP) {
         mouseUp = true;
-        translateIn();
     } else {
         mouseUp = false;
-        translateOut();
     }
 }
 
@@ -356,8 +372,6 @@ void motion(int x, int y) {
     mouseY = y;
 }
 
-
-
 void drawCube() {
     /** TODO for Justin
      Currently, this function attempts to draw a large cube and display it on the screen
@@ -371,7 +385,8 @@ void drawCube() {
     
     // red panel
     glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(1.f,0.f,0.f);
+    
+    glColor4f(GOLD[0][0], GOLD[0][1], GOLD[0][2], 0.2);
     glVertex3f(0,0,0);
     glVertex3f(0,.1,0);
     glVertex3f(.1,0,0);
@@ -380,7 +395,7 @@ void drawCube() {
 
     // pink panel
     glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(1.f,0.f,1.f);
+    glColor4f(GOLD[1][0], GOLD[1][1], GOLD[1][2], 0.4);
     glVertex3f(.15,.05,-.1);
     glVertex3f(.15,.15,-.1);
     glVertex3f(.05,.05,-.1);
@@ -389,7 +404,7 @@ void drawCube() {
 
     // blue panel
     glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(0.f,0.f,1.f);
+    glColor4f(GOLD[2][0], GOLD[2][1], GOLD[2][2], 0.6);
     glVertex3f(.1,0,0);
     glVertex3f(.1,.1,0);
     glVertex3f(.15,.05,-.1);
@@ -398,7 +413,7 @@ void drawCube() {
 
     // green panel
     glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(0.f,1.f,0.f);
+    glColor4f(GOLD[0][0], GOLD[0][1], GOLD[0][2], 1);
     glVertex3f(.15,.15,-.1);
     glVertex3f(.05,.15,-.1);
     glVertex3f(.1, .1, 0);
@@ -407,7 +422,7 @@ void drawCube() {
     
     // white panel
     glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(1.f,1.f,1.f);
+    glColor4f(GOLD[1][0], GOLD[1][1], GOLD[1][2], 0.8);
     glVertex3f(.15,.05,-.1);
     glVertex3f(.05,.05,-.1);
     glVertex3f(.1,0,0);
@@ -416,7 +431,7 @@ void drawCube() {
 
     // yellow panel
     glBegin(GL_TRIANGLE_STRIP);
-    glColor3f(1.f,1.f,0.f);
+    glColor4f(GOLD[2][0], GOLD[2][1], GOLD[2][2], 1);
     glVertex3f(0,.1,0);
     glVertex3f(0,0,0);
     glVertex3f(.05,.15,-.1);
@@ -425,7 +440,7 @@ void drawCube() {
 }
 
 void display( void ) {
-    glClear( GL_COLOR_BUFFER_BIT );
+    glClear(GL_COLOR_BUFFER_BIT);
     drawAll();
     drawCube();
     glutSwapBuffers();
@@ -469,13 +484,19 @@ void keyboard(unsigned char key, int x, int y) {
         case 'h':
             mode = GRAPH;
             break;
-        case '+':
+        case '>':
             edge_prob += 0.005;
             dot_diam -= 0.001;
             break;
-        case '-':
+        case '<':
             edge_prob -= 0.005;
             dot_diam += 0.001;
+            break;
+        case '+':
+            translateIn();
+            break;
+        case '-':
+            translateOut();
             break;
         case 27: // Escape key
             exit(0);
@@ -529,7 +550,7 @@ int main (int argc, char *argv[]) {
     glEnable(GL_DEPTH_TEST);
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
-    glClearColor(0.85, 0.85, 0.85, 1.0);
+    glClearColor(background[0][0], background[0][1], background[0][2], 0.9);
     glutMainLoop();
     
     return 0;
