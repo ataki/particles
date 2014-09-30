@@ -357,70 +357,75 @@ void motion(int x, int y) {
 }
 
 
-
-void drawCube() {
-    /** TODO for Justin
-     Currently, this function attempts to draw a large cube and display it on the screen
-     using just triangle strips. However, it doesn't do a good job. Try running it and see.
-     
-     The todo is to adjust the points on the vertex such that the cube looks more like a cube.
-     **/
+void drawReferenceCubes() {
     
+}
+
+#define CENTER_CUBE_LEN 0.1
+#define CENTER_CUBE_OFFSET 0.05
+
+/** Currently, this function attempts to draw a large cube and display it on the screen
+ using just triangle strips. However, it doesn't do a good job. Try running it and see.
+ 
+ The todo is to adjust the points on the vertex such that the cube looks more like a cube.
+ **/
+void drawCube() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glTranslatef(0, .5 - CENTER_CUBE_LEN/2, 0);
     
     // red panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,0.f,0.f);
     glVertex3f(0,0,0);
-    glVertex3f(0,.1,0);
-    glVertex3f(.1,0,0);
-    glVertex3f(.1,.1,0);
+    glVertex3f(0,CENTER_CUBE_LEN,0);
+    glVertex3f(CENTER_CUBE_LEN,0,0);
+    glVertex3f(CENTER_CUBE_LEN,CENTER_CUBE_LEN,0);
     glEnd();
 
     // pink panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,0.f,1.f);
-    glVertex3f(.15,.05,-.1);
-    glVertex3f(.15,.15,-.1);
-    glVertex3f(.05,.05,-.1);
-    glVertex3f(.05,.15,-.1);
+    glVertex3f(CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
     glEnd();
 
     // blue panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(0.f,0.f,1.f);
-    glVertex3f(.1,0,0);
-    glVertex3f(.1,.1,0);
-    glVertex3f(.15,.05,-.1);
-    glVertex3f(.15,.15,-.1);
+    glVertex3f(CENTER_CUBE_LEN,0,0);
+    glVertex3f(CENTER_CUBE_LEN,CENTER_CUBE_LEN,0);
+    glVertex3f(CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
     glEnd();
 
     // green panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(0.f,1.f,0.f);
-    glVertex3f(.15,.15,-.1);
-    glVertex3f(.05,.15,-.1);
-    glVertex3f(.1, .1, 0);
-    glVertex3f(0,.1,0);
+    glVertex3f(CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_LEN, CENTER_CUBE_LEN, 0);
+    glVertex3f(0,CENTER_CUBE_LEN,0);
     glEnd();
     
     // white panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,1.f,1.f);
-    glVertex3f(.15,.05,-.1);
-    glVertex3f(.05,.05,-.1);
-    glVertex3f(.1,0,0);
+    glVertex3f(CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_LEN,0,0);
     glVertex3f(0,0,0);
     glEnd();
 
     // yellow panel
     glBegin(GL_TRIANGLE_STRIP);
     glColor3f(1.f,1.f,0.f);
-    glVertex3f(0,.1,0);
+    glVertex3f(0,CENTER_CUBE_LEN,0);
     glVertex3f(0,0,0);
-    glVertex3f(.05,.15,-.1);
-    glVertex3f(.05,.05,-.1);
+    glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
     glEnd();
 }
 
@@ -428,6 +433,7 @@ void display( void ) {
     glClear( GL_COLOR_BUFFER_BIT );
     drawAll();
     drawCube();
+    drawReferenceCubes();
     glutSwapBuffers();
 }
 
