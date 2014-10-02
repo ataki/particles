@@ -437,6 +437,46 @@ void drawCube() {
     glVertex3f(0,CENTER_CUBE_LEN,0);
     glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_LEN + CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
     glVertex3f(CENTER_CUBE_OFFSET,CENTER_CUBE_OFFSET,-CENTER_CUBE_LEN);
+    glVertex3f(0,cube_len,0);
+    glVertex3f(0,0,0);
+    glVertex3f(cube_offset,cube_len + cube_offset,-cube_len);
+    glVertex3f(cube_offset,cube_offset,-cube_len);
+    glEnd();
+}
+
+void drawReferenceCubes() {
+    drawCube(.0 - REFERENCE_CUBE_LEN / 2, .9, .0 - REFERENCE_CUBE_LEN / 2, REFERENCE_CUBE_LEN, REFERENCE_CUBE_OFFSET);
+    drawCube(.8, .0 - REFERENCE_CUBE_LEN / 2 + .1, .0 - REFERENCE_CUBE_LEN / 2, REFERENCE_CUBE_LEN, REFERENCE_CUBE_OFFSET);
+    drawCube(.0 - REFERENCE_CUBE_LEN / 2, .0 - REFERENCE_CUBE_LEN / 2 + .1, .8, REFERENCE_CUBE_LEN, REFERENCE_CUBE_OFFSET);
+    // origin cube
+    drawCube(.0 - REFERENCE_CUBE_LEN / 2, .0 - REFERENCE_CUBE_LEN / 2 + .05, .0 - REFERENCE_CUBE_LEN / 2, REFERENCE_CUBE_LEN, REFERENCE_CUBE_OFFSET);
+}
+
+
+void drawReferenceLines() {
+    glLineWidth(4.);
+    glLoadIdentity();
+    
+    // x axis
+    glBegin(GL_LINES);
+    glColor3f(1.f,0.f,0.f);
+    glVertex3f(0.0f,0.05f,0.f);
+    glVertex3f(0.0f,.9f,0.f);
+    glEnd();
+    
+    // y axis
+    glBegin(GL_LINES);
+    glColor3f(0.f,0.f,1.f);
+    glVertex3f(0.0f,0.05f,0.f);
+    glVertex3f(0.0f,0.1f,.8f);
+    glEnd();
+    
+    // z axis
+    glBegin(GL_LINES);
+    glColor3f(1.f,1.f,0.f);
+    glVertex3f(0.0f,0.05f,0.f);
+    glVertex3f(.8f,0.1f,0.f);
+>>>>>>> 15aa58b... slight repositioning of the axes
     glEnd();
 }
 
